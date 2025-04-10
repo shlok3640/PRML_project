@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand-drawn Sketch Recognition</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .authors {
+            text-align: center;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .course-info {
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .abstract {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .results-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .results-box {
+            flex: 0 0 48%;
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .member-contribution {
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hand-drawn Sketch Recognition</h1>
+    
+    <div class="authors">
+        <p>Sonic Vyas, Yash Kumar Singh, Shardul Vikram Singh, Sarthak Bhiwaji Kolekar, Shlok Kanani</p>
+    </div>
+    
+    <div class="course-info">
+        <p>CSL2050: Pattern Recognition and Machine Learning, Indian Institute of Technology Jodhpur</p>
+    </div>
+    
+    <div class="abstract">
+        <p>Hand-drawn sketch recognition is an important problem in pattern recognition and machine learning, as sketches provide a natural form of human expression. In this project, we explore different machine learning models for classifying sketches into object categories. We have implemented k-Nearest Neighbors (kNN) and Support Vector Machine (SVM) models and evaluated their performance on a dataset of 20,000 unique sketches across 250 categories.</p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="https://github.com/shlok3640/PRML_project/raw/main/Mid_Progress_Report_PRML-2.pdf" class="button">Project Report</a>
+        <a href="https://github.com/shlok3640/PRML_project/blob/main/PRML_project_knn.ipynb" class="button">kNN Implementation</a>
+        <a href="https://github.com/shlok3640/PRML_project/blob/main/PRML_project_SVM.ipynb" class="button">SVM Implementation</a>
+        <a href="https://github.com/shlok3640/PRML_project/blob/main/dataset_link.md" class="button">Dataset</a>
+    </div>
+    
+    <h2>Overview</h2>
+    <p>Hand-drawn sketch recognition is a challenging problem due to the high variability in sketching styles across different individuals. Our project focuses on implementing and comparing traditional machine learning approaches for sketch classification, with plans to extend to more advanced techniques. The dataset consists of 20,000 unique sketches drawn by non-experts across 250 categories, making it a comprehensive test bed for our algorithms.</p>
+    
+    <h2>Dataset</h2>
+    <p>The dataset contains 20,000 unique sketches spread across 250 object categories (animals, everyday objects, vehicles, etc.). These sketches are drawn by non-experts, making them highly variable in style. The dataset provides a large-scale exploration of human sketches and their distribution across different object categories.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <img src="https://path-to-your-sample-image.jpg" alt="Sample Sketch" style="max-width: 400px;">
+        <p><em>Example sketches from the dataset</em></p>
+    </div>
+    
+    <h2>Methods</h2>
+    
+    <h3>k-Nearest Neighbors (kNN)</h3>
+    <p>We implemented kNN for classification and experimented with different values of k ranging from 3 to 28. The implementation includes:</p>
+    <ul>
+        <li>Distance metric: Manhattan distance</li>
+        <li>Feature extraction: HOG, LBP, and edge density features</li>
+        <li>Feature normalization using MinMaxScaler</li>
+    </ul>
+    
+    <h3>Support Vector Machine (SVM)</h3>
+    <p>We implemented SVM with different kernels and hyperparameters, including:</p>
+    <ul>
+        <li>Different kernel functions (linear, RBF)</li>
+        <li>Various C values (1.0, 10, 100)</li>
+        <li>Dimensionality reduction using PCA with different numbers of components</li>
+    </ul>
+    
+    <h2>Results</h2>
+    
+    <div class="results-container">
+        <div class="results-box">
+            <h3>kNN Results</h3>
+            <p>The highest accuracy achieved was <strong>27.82%</strong> when k=15.</p>
+            <p>We experimented with different values of k ranging from 3 to 28, and found that k=15 gave the best balance between overfitting and underfitting.</p>
+        </div>
+        
+        <div class="results-box">
+            <h3>SVM Results</h3>
+            <p>The highest accuracy achieved was <strong>21.00%</strong> with kernel=rbf, C=1.0, and using PCA with 150 components.</p>
+        </div>
+    </div>
+    
+    <h3>Detailed SVM Results</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Configuration</th>
+                <th>Accuracy (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Without PCA, Linear kernel</td>
+                <td>17.22</td>
+            </tr>
+            <tr>
+                <td>Without PCA, RBF kernel, C=1.0</td>
+                <td>17.97</td>
+            </tr>
+            <tr>
+                <td>Without PCA, RBF kernel, C=10</td>
+                <td>18.57</td>
+            </tr>
+            <tr>
+                <td>Without PCA, RBF kernel, C=100</td>
+                <td>18.50</td>
+            </tr>
+            <tr>
+                <td>PCA (100 components), Linear kernel</td>
+                <td>17.12</td>
+            </tr>
+            <tr>
+                <td>PCA (100 components), RBF kernel, C=1.0</td>
+                <td>20.97</td>
+            </tr>
+            <tr>
+                <td>PCA (100 components), RBF kernel, C=10</td>
+                <td>20.57</td>
+            </tr>
+            <tr>
+                <td>PCA (100 components), RBF kernel, C=100</td>
+                <td>20.52</td>
+            </tr>
+            <tr>
+                <td>PCA (150 components), RBF kernel, C=1.0</td>
+                <td>21.00</td>
+            </tr>
+            <tr>
+                <td>PCA (150 components), RBF kernel, C=10</td>
+                <td>19.98</td>
+            </tr>
+            <tr>
+                <td>PCA (150 components), RBF kernel, C=100</td>
+                <td>19.68</td>
+            </tr>
+            <tr>
+                <td>PCA (200 components), RBF kernel, C=1.0</td>
+                <td>20.47</td>
+            </tr>
+            <tr>
+                <td>PCA (200 components), RBF kernel, C=10</td>
+                <td>19.43</td>
+            </tr>
+            <tr>
+                <td>PCA (200 components), RBF kernel, C=100</td>
+                <td>19.40</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Future Work</h2>
+    <p>To improve accuracy, we plan to implement additional techniques:</p>
+    <ul>
+        <li>Decision Trees for simple and interpretable classification</li>
+        <li>Gaussian Mixture Models (GMM) for probabilistic clustering and classification</li>
+        <li>Convolutional Neural Networks (CNN), as deep learning approaches have been successful in image classification problems</li>
+    </ul>
+    
+    <h2>Team Contributions</h2>
+    <div class="member-contribution">
+        <strong>Sonic Vyas:</strong> Implemented SVM model and feature extraction
+    </div>
+    <div class="member-contribution">
+        <strong>Shlok Kanani:</strong> Implemented kNN model and preprocessing pipeline
+    </div>
+    <div class="member-contribution">
+        <strong>Shardul Vikram Singh:</strong> Worked on dataset organization and evaluation metrics
+    </div>
+    <div class="member-contribution">
+        <strong>Sarthak Bhiwaji Kolekar:</strong> Assisted in hyperparameter tuning and debugging
+    </div>
+    <div class="member-contribution">
+        <strong>Yash Kumar Singh:</strong> Handled report documentation and presentation
+    </div>
+    
+    <footer style="margin-top: 50px; text-align: center; font-size: 0.9em; color: #777; border-top: 1px solid #eee; padding-top: 20px;">
+        <p>© 2025 Hand-drawn Sketch Recognition Project | Last Updated: April 10, 2025</p>
+    </footer>
+</body>
+</html>
