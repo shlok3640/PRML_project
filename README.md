@@ -89,8 +89,6 @@ Humans have sketched to express visual understanding for millennia. This project
 
 ### ⚠️ Error Analysis
 - Visual similarity (e.g., sedan vs. coupe) leads to confusion.
-- Underrepresented classes (<50 samples) suffer most.
-- Complex backgrounds sometimes distract CNN attention.
 - Occlusion and varied scales cause drops in performance.
 
 ---
