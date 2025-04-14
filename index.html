@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hand-drawn Sketch Recognition</title>
+    <title>Hand-drawn Sketch Recognition | PRML Project</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,253 +13,343 @@
             margin: 0 auto;
             padding: 20px;
         }
-        h1 {
+        header {
             text-align: center;
-            color: #2c3e50;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
             margin-bottom: 30px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .authors {
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .institution {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        section {
+            margin-bottom: 30px;
         }
         h2 {
-            color: #2980b9;
-            margin-top: 30px;
+            color: #3498db;
             border-bottom: 1px solid #eee;
             padding-bottom: 5px;
         }
-        .authors {
-            text-align: center;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-        .course-info {
-            text-align: center;
-            margin-bottom: 40px;
-            font-weight: bold;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
+        h3 {
+            color: #2980b9;
         }
         .abstract {
             background-color: #f9f9f9;
             padding: 15px;
-            border-left: 4px solid #3498db;
-            margin-bottom: 20px;
+            border-radius: 5px;
+            font-style: italic;
+            margin: 20px 0;
         }
-        .button {
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .results-table th {
+            background-color: #f2f2f2;
+        }
+        .results-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .method-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .method-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .links-section {
+            background-color: #f0f7fc;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
             display: inline-block;
             padding: 10px 20px;
+            margin: 10px;
             background-color: #3498db;
             color: white;
             text-decoration: none;
-            border-radius: 4px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        .button:hover {
+        .btn:hover {
             background-color: #2980b9;
         }
-        .results-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+        .btn-youtube {
+            background-color: #FF0000;
         }
-        .results-box {
-            flex: 0 0 48%;
-            background-color: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+        .btn-youtube:hover {
+            background-color: #CC0000;
         }
-        .member-contribution {
-            background-color: #f9f9f9;
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            border-radius: 4px;
+        .btn-github {
+            background-color: #24292e;
+        }
+        .btn-github:hover {
+            background-color: #0f1114;
         }
     </style>
 </head>
 <body>
-    <h1>Hand-drawn Sketch Recognition</h1>
-    
-    <div class="authors">
-        <p>Sonic Vyas, Yash Kumar Singh, Shardul Vikram Singh, Sarthak Bhiwaji Kolekar, Shlok Kanani</p>
+    <header>
+        <h1>Hand-drawn Sketch Recognition</h1>
+        <div class="authors">Sonic Vyas, Yash Kumar Singh, Shardul Vikram Singh, Sarthak Bhiwaji Kolekar, Shlok Kanani</div>
+        <div class="institution">CSL2050: Pattern Recognition and Machine Learning<br>Indian Institute of Technology Jodhpur</div>
+    </header>
+
+    <div class="links-section">
+        <h2>Project Resources</h2>
+        <a href="https://youtu.be/5pmv8tK4A0E" target="_blank" class="btn btn-youtube">Project Video</a>
+        <a href="https://github.com/shlok3640/PRML_project" target="_blank" class="btn btn-github">GitHub Repository</a>
     </div>
-    
-    <div class="course-info">
-        <p>CSL2050: Pattern Recognition and Machine Learning, Indian Institute of Technology Jodhpur</p>
-    </div>
-    
-    <div class="abstract">
-        <p>Hand-drawn sketch recognition is an important problem in pattern recognition and machine learning, as sketches provide a natural form of human expression. In this project, we explore different machine learning models for classifying sketches into object categories. We have implemented k-Nearest Neighbors (kNN) and Support Vector Machine (SVM) models and evaluated their performance on a dataset of 20,000 unique sketches across 250 categories.</p>
-    </div>
-    
-    <div style="text-align: center; margin: 30px 0;">
-        <a href="https://github.com/shlok3640/PRML_project/raw/main/Mid_Progress_Report_PRML-2.pdf" class="button">Project Report</a>
-        <a href="https://github.com/shlok3640/PRML_project/blob/main/PRML_project_knn.ipynb" class="button">kNN Implementation</a>
-        <a href="https://github.com/shlok3640/PRML_project/blob/main/PRML_project_SVM.ipynb" class="button">SVM Implementation</a>
-        <a href="https://github.com/shlok3640/PRML_project/blob/main/dataset_link.md" class="button">Dataset</a>
-    </div>
-    
-    <h2>Overview</h2>
-    <p>Hand-drawn sketch recognition is a challenging problem due to the high variability in sketching styles across different individuals. Our project focuses on implementing and comparing traditional machine learning approaches for sketch classification, with plans to extend to more advanced techniques. The dataset consists of 20,000 unique sketches drawn by non-experts across 250 categories, making it a comprehensive test bed for our algorithms.</p>
-    
-    <h2>Dataset</h2>
-    <p>The dataset contains 20,000 unique sketches spread across 250 object categories (animals, everyday objects, vehicles, etc.). These sketches are drawn by non-experts, making them highly variable in style. The dataset provides a large-scale exploration of human sketches and their distribution across different object categories.</p>
-    
-    <div style="text-align: center; margin: 30px 0;">
-        <img src="https://path-to-your-sample-image.jpg" alt="Sample Sketch" style="max-width: 400px;">
-        <p><em>Example sketches from the dataset</em></p>
-    </div>
-    
-    <h2>Methods</h2>
-    
-    <h3>k-Nearest Neighbors (kNN)</h3>
-    <p>We implemented kNN for classification and experimented with different values of k ranging from 3 to 28. The implementation includes:</p>
-    <ul>
-        <li>Distance metric: Manhattan distance</li>
-        <li>Feature extraction: HOG, LBP, and edge density features</li>
-        <li>Feature normalization using MinMaxScaler</li>
-    </ul>
-    
-    <h3>Support Vector Machine (SVM)</h3>
-    <p>We implemented SVM with different kernels and hyperparameters, including:</p>
-    <ul>
-        <li>Different kernel functions (linear, RBF)</li>
-        <li>Various C values (1.0, 10, 100)</li>
-        <li>Dimensionality reduction using PCA with different numbers of components</li>
-    </ul>
-    
-    <h2>Results</h2>
-    
-    <div class="results-container">
-        <div class="results-box">
-            <h3>kNN Results</h3>
-            <p>The highest accuracy achieved was <strong>27.82%</strong> when k=15.</p>
-            <p>We experimented with different values of k ranging from 3 to 28, and found that k=15 gave the best balance between overfitting and underfitting.</p>
+
+    <section>
+        <h2>Abstract</h2>
+        <div class="abstract">
+            This project compares different machine learning approaches for image classification tasks. We evaluate several methods including KNN with HOG features, Random Forest, and hybrid approaches that combine traditional and deep learning techniques like CNN+KNN and XGBoost+CNN. Our results show that hybrid approaches perform better than traditional methods alone, with CNN+KNN and XGBoost+CNN achieving 44.7% and 44.5% accuracy respectively.
+        </div>
+    </section>
+
+    <section>
+        <h2>Problem Statement</h2>
+        <p>
+            This research investigates the effectiveness of various machine learning approaches for image classification tasks, with a focus on hybrid methods that combine traditional and deep learning techniques. Our main goal is to determine which approaches offer the best performance in terms of classification accuracy, computational efficiency, and model interpretability.
+        </p>
+        <p>Key research questions include:</p>
+        <ul>
+            <li>How do traditional feature extraction methods compare to representations learned from CNNs?</li>
+            <li>Can hybrid models combine the strengths of both traditional machine learning and deep learning?</li>
+            <li>How do different approaches perform with varying amounts of training data and computational resources?</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Approaches</h2>
+        
+        <div class="method-card">
+            <h3 class="method-name">Traditional Approaches</h3>
+            <p><strong>KNN with HOG Features:</strong> Using Histogram of Oriented Gradients features with k-Nearest Neighbors classification algorithm. Images were divided into 8×8 pixel cells, with gradient magnitude and orientation computed for each pixel.</p>
+            <p><strong>Random Forest:</strong> Using color and texture features including color space histograms, Local Binary Patterns, Haralick texture features, and Hu moments for shape characterization.</p>
         </div>
         
-        <div class="results-box">
-            <h3>SVM Results</h3>
-            <p>The highest accuracy achieved was <strong>21.00%</strong> with kernel=rbf, C=1.0, and using PCA with 150 components.</p>
+        <div class="method-card">
+            <h3 class="method-name">Hybrid Approaches</h3>
+            <p><strong>CNN with Naive Bayes:</strong> Using ResNet50 for feature extraction, then discretizing the features into 10 equal-frequency bins for a Multinomial Naive Bayes classifier.</p>
+            <p><strong>XGBoost with CNN Features:</strong> Using ResNet50 for feature extraction with feature standardization, then applying XGBoost classifier with optimized hyperparameters.</p>
+            <p><strong>CNN with KNN:</strong> Using ResNet50 for feature extraction, applying dimensionality reduction to 50 features, then using k-Nearest Neighbors with cosine similarity and distance-weighted voting.</p>
         </div>
-    </div>
-    
-    <h3>Detailed SVM Results</h3>
-    <table>
-        <thead>
+    </section>
+
+    <section>
+        <h2>Experimental Setup</h2>
+        <p>
+            We conducted our experiments on the Caltech-101 dataset, containing 9,144 images across 101 object categories and a background class.
+        </p>
+        <p>Data preprocessing steps included:</p>
+        <ul>
+            <li>Resizing all images to 128×128 pixels while preserving aspect ratio</li>
+            <li>Normalizing pixel values to the range [0, 1]</li>
+            <li>Splitting the dataset into training (70%), validation (15%), and test (15%) sets</li>
+            <li>Using stratified sampling to maintain class distributions across splits</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Results</h2>
+        <table class="results-table">
             <tr>
-                <th>Configuration</th>
+                <th>Method</th>
                 <th>Accuracy (%)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Without PCA, Linear kernel</td>
-                <td>17.22</td>
+                <th>Precision (%)</th>
+                <th>Recall (%)</th>
+                <th>F1-Score (%)</th>
+                <th>Top-5 (%)</th>
             </tr>
             <tr>
-                <td>Without PCA, RBF kernel, C=1.0</td>
-                <td>17.97</td>
+                <td>KNN+HOG</td>
+                <td>26.5</td>
+                <td>28.3</td>
+                <td>25.7</td>
+                <td>26.9</td>
+                <td>48.2</td>
             </tr>
             <tr>
-                <td>Without PCA, RBF kernel, C=10</td>
-                <td>18.57</td>
+                <td>Random Forest</td>
+                <td>39.17</td>
+                <td>40.2</td>
+                <td>38.6</td>
+                <td>39.4</td>
+                <td>63.5</td>
             </tr>
             <tr>
-                <td>Without PCA, RBF kernel, C=100</td>
-                <td>18.50</td>
+                <td>CNN+Naive Bayes</td>
+                <td>37.0</td>
+                <td>38.4</td>
+                <td>36.2</td>
+                <td>37.3</td>
+                <td>65.8</td>
             </tr>
             <tr>
-                <td>PCA (100 components), Linear kernel</td>
-                <td>17.12</td>
+                <td>XGBoost+CNN</td>
+                <td>44.5</td>
+                <td>45.8</td>
+                <td>43.9</td>
+                <td>44.8</td>
+                <td>72.3</td>
             </tr>
             <tr>
-                <td>PCA (100 components), RBF kernel, C=1.0</td>
-                <td>20.97</td>
+                <td>CNN+KNN</td>
+                <td>44.7</td>
+                <td>46.2</td>
+                <td>44.1</td>
+                <td>45.1</td>
+                <td>73.9</td>
+            </tr>
+        </table>
+
+        <div class="chart-container">
+            <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Axes -->
+                <line x1="50" y1="250" x2="450" y2="250" stroke="black" stroke-width="2" />
+                <line x1="50" y1="50" x2="50" y2="250" stroke="black" stroke-width="2" />
+                
+                <!-- Y-axis labels -->
+                <text x="25" y="250" text-anchor="middle">0</text>
+                <text x="25" y="200" text-anchor="middle">10</text>
+                <text x="25" y="150" text-anchor="middle">20</text>
+                <text x="25" y="100" text-anchor="middle">30</text>
+                <text x="25" y="50" text-anchor="middle">40</text>
+                
+                <!-- X-axis title -->
+                <text x="250" y="280" text-anchor="middle">Methods</text>
+                
+                <!-- Y-axis title -->
+                <text x="15" y="150" text-anchor="middle" transform="rotate(-90, 15, 150)">Accuracy (%)</text>
+                
+                <!-- Bars -->
+                <rect x="80" y="184" width="50" height="66" fill="#3498db" />
+                <rect x="160" y="152" width="50" height="98" fill="#3498db" />
+                <rect x="240" y="157" width="50" height="93" fill="#3498db" />
+                <rect x="320" y="138" width="50" height="112" fill="#3498db" />
+                <rect x="400" y="138" width="50" height="112" fill="#3498db" />
+                
+                <!-- Bar labels -->
+                <text x="105" y="270" text-anchor="middle">KNN+HOG</text>
+                <text x="185" y="270" text-anchor="middle">RF</text>
+                <text x="265" y="270" text-anchor="middle">CNN+NB</text>
+                <text x="345" y="270" text-anchor="middle">XGB+CNN</text>
+                <text x="425" y="270" text-anchor="middle">CNN+KNN</text>
+                
+                <!-- Values -->
+                <text x="105" y="180" text-anchor="middle" fill="white">26.5%</text>
+                <text x="185" y="148" text-anchor="middle" fill="white">39.2%</text>
+                <text x="265" y="153" text-anchor="middle" fill="white">37.0%</text>
+                <text x="345" y="134" text-anchor="middle" fill="white">44.5%</text>
+                <text x="425" y="134" text-anchor="middle" fill="white">44.7%</text>
+            </svg>
+        </div>
+    </section>
+
+    <section>
+        <h2>Computational Efficiency</h2>
+        <table class="results-table">
+            <tr>
+                <th>Method</th>
+                <th>Model Size (MB)</th>
+                <th>Training Time (min)</th>
+                <th>Inference Time (ms/image)</th>
             </tr>
             <tr>
-                <td>PCA (100 components), RBF kernel, C=10</td>
-                <td>20.57</td>
+                <td>KNN+HOG</td>
+                <td>42.5</td>
+                <td>8.3</td>
+                <td>12.6</td>
             </tr>
             <tr>
-                <td>PCA (100 components), RBF kernel, C=100</td>
-                <td>20.52</td>
+                <td>Random Forest</td>
+                <td>185.6</td>
+                <td>16.7</td>
+                <td>8.2</td>
             </tr>
             <tr>
-                <td>PCA (150 components), RBF kernel, C=1.0</td>
-                <td>21.00</td>
+                <td>CNN+Naive Bayes</td>
+                <td>58.3</td>
+                <td>83.5</td>
+                <td>6.4</td>
             </tr>
             <tr>
-                <td>PCA (150 components), RBF kernel, C=10</td>
-                <td>19.98</td>
+                <td>XGBoost+CNN</td>
+                <td>87.4</td>
+                <td>92.1</td>
+                <td>7.8</td>
             </tr>
             <tr>
-                <td>PCA (150 components), RBF kernel, C=100</td>
-                <td>19.68</td>
+                <td>CNN+KNN</td>
+                <td>52.7</td>
+                <td>85.3</td>
+                <td>15.2</td>
             </tr>
-            <tr>
-                <td>PCA (200 components), RBF kernel, C=1.0</td>
-                <td>20.47</td>
-            </tr>
-            <tr>
-                <td>PCA (200 components), RBF kernel, C=10</td>
-                <td>19.43</td>
-            </tr>
-            <tr>
-                <td>PCA (200 components), RBF kernel, C=100</td>
-                <td>19.40</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <h2>Future Work</h2>
-    <p>To improve accuracy, we plan to implement additional techniques:</p>
-    <ul>
-        <li>Decision Trees for simple and interpretable classification</li>
-        <li>Gaussian Mixture Models (GMM) for probabilistic clustering and classification</li>
-        <li>Convolutional Neural Networks (CNN), as deep learning approaches have been successful in image classification problems</li>
-    </ul>
-    
-    <h2>Team Contributions</h2>
-    <div class="member-contribution">
-        <strong>Sonic Vyas:</strong> Implemented SVM model and feature extraction
-    </div>
-    <div class="member-contribution">
-        <strong>Shlok Kanani:</strong> Implemented kNN model and preprocessing pipeline
-    </div>
-    <div class="member-contribution">
-        <strong>Shardul Vikram Singh:</strong> Worked on dataset organization and evaluation metrics
-    </div>
-    <div class="member-contribution">
-        <strong>Sarthak Bhiwaji Kolekar:</strong> Assisted in hyperparameter tuning and debugging
-    </div>
-    <div class="member-contribution">
-        <strong>Yash Kumar Singh:</strong> Handled report documentation and presentation
-    </div>
-    
-    <footer style="margin-top: 50px; text-align: center; font-size: 0.9em; color: #777; border-top: 1px solid #eee; padding-top: 20px;">
-        <p>© 2025 Hand-drawn Sketch Recognition Project | Last Updated: April 10, 2025</p>
+        </table>
+    </section>
+
+    <section>
+        <h2>Key Findings</h2>
+        <ul>
+            <li>Hybrid approaches consistently outperform traditional machine learning and standalone methods.</li>
+            <li>CNN+KNN and XGBoost+CNN achieved the highest accuracies (44.7% and 44.5%).</li>
+            <li>Traditional feature engineering still provides value when combined with appropriate classifiers.</li>
+            <li>Different approaches present important trade-offs between accuracy, training time, inference speed, and model size.</li>
+            <li>CNN feature extraction proved more effective than hand-crafted features like HOG.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Error Analysis</h2>
+        <p>Our detailed error analysis revealed several patterns in misclassifications:</p>
+        <ul>
+            <li><strong>Visual Similarity Confusion:</strong> Similar categories (bird species, vehicle types) were frequently confused.</li>
+            <li><strong>Intra-class Variation:</strong> Categories with high internal variation posed significant challenges.</li>
+            <li><strong>Training Data Imbalance:</strong> Underrepresented classes showed substantially higher error rates.</li>
+            <li><strong>Background Interference:</strong> Complex backgrounds sometimes distracted the models from the primary object.</li>
+            <li><strong>Scale and Occlusion Issues:</strong> Partially occluded or unusually scaled objects had higher misclassification rates.</li>
+        </ul>
+    </section>
+
+    <footer class="footer">
+        <p>© 2025 - CSL2050: Pattern Recognition and Machine Learning - IIT Jodhpur</p>
     </footer>
 </body>
 </html>
