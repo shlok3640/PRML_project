@@ -125,11 +125,11 @@ We explored various feature extraction techniques combined with SVM for sketch r
 \appendix
 \section*{A. Contribution of Each Member}
 \begin{itemize}
-\item Sonic Vyas: HOG Implementation and testing
-\item Yash Kumar Singh: LBP Extraction and PCA integration
-\item Shardul Vikram Singh: Dataset handling and preprocessing
-\item Sarthak Bhiwaji Kolekar: SVM classifier, Evaluation, Report writing
-\item Shlok Kanani: Code integration, debugging, LaTeX formatting
+    \item \textbf{Sonic Vyas:} Implemented SVM model and feature extraction.
+    \item \textbf{Shlok Kanani:} Implemented kNN model and preprocessing pipeline.
+    \item \textbf{Shardul Vikram Singh:} Worked on dataset organization and evaluation metrics.
+    \item \textbf{Sarthak Bhiwaji Kolekar:} Assisted in hyperparameter tuning and debugging.
+    \item \textbf{Yash Kumar Singh:} Handled report documentation and presentation.
 \end{itemize}
 
 \bibliographystyle{plain}
