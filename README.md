@@ -104,23 +104,6 @@ Humans have sketched to express visual understanding for millennia. This project
 
 ---
 
-## ▶️ Running the Code
-
-```bash
-# Clone repo and install dependencies
-
-# Launch SVM-based model
-jupyter notebook PRML_project_SVM.ipynb
-
-# Try KNN experiments
-jupyter notebook PRML_project_knn.ipynb
-
-# Run hybrid CNN-based demo
-jupyter notebook demo_PRML_Project_knn+CNN.ipynb
-```
-
----
-
 ## 👨‍💻 Contributors
 
 - **Sonic Vyas** – b23cs1100@iitj.ac.in  
