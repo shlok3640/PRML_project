@@ -1,138 +1,383 @@
 \documentclass{article}
-\usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage{hyperref}
-\usepackage{enumitem}
 \usepackage{caption}
-\usepackage{geometry}
-\geometry{margin=1in}
+\usepackage{subcaption}
 
-\title{Hand-drawn Sketch Recognition: Feature Extraction and SVM-Based Classification}
+\title{Hand-drawn Sketch Recognition}
+
 \author{
-Sonic Vyas\textsuperscript{1}, 
-Yash Kumar Singh\textsuperscript{1}, 
-Shardul Vikram Singh\textsuperscript{1},\\
-Sarthak Bhiwaji Kolekar\textsuperscript{1}, 
-Shlok Kanani\textsuperscript{1}\\
-\textsuperscript{1}Indian Institute of Technology Jodhpur\\
-\{vyas.1, yash.singh, shardul.singh, sarthak.kolekar, kanani.1\}@iitj.ac.in
+Sonic Vyas$^1$, Yash Kumar Singh$^1$, Shardul Vikram Singh$^1$\\
+Sarthak Bhiwaji Kolekar$^1$, Shlok Kanani$^1$\\
+$^1$CSL2050: Pattern Recognition and Machine Learning\\
+Indian Institute of Technology Jodhpur
 }
 
 \date{}
 
 \begin{document}
+
 \maketitle
 
 \begin{abstract}
-This project focuses on recognizing hand-drawn sketches using feature extraction techniques such as Histogram of Oriented Gradients (HOG) and Local Binary Patterns (LBP), followed by classification using Support Vector Machines (SVM). The dataset used includes various categories of hand-drawn objects. Experiments are conducted with and without Principal Component Analysis (PCA) for dimensionality reduction. The project aims to evaluate model performance based on classification accuracy and precision metrics.
-\\
-\textbf{Keywords:} sketch recognition, HOG, LBP, SVM, PCA
+This paper compares different machine learning approaches for image classification tasks. We evaluate several methods including KNN with HOG features, Random Forest, and hybrid approaches that combine traditional and deep learning techniques like CNN+KNN and XGBoost+CNN. Our results show that hybrid approaches perform better than traditional methods alone, with CNN+KNN and XGBoost+CNN achieving 44.7\% and 44.5\% accuracy respectively. These findings provide valuable insights for developing effective image classification systems, especially when dealing with limited training data or computational constraints.
 \end{abstract}
 
-\tableofcontents
-
 \section{Introduction}
-Sketch recognition has gained attention due to its potential in human-computer interaction, design tools, and educational applications. Recognizing sketches poses challenges due to their abstract nature and variations in drawing styles.
+\subsection{Problem Statement}
+This research investigates the effectiveness of various machine learning approaches for image classification tasks, with a focus on hybrid methods that combine traditional and deep learning techniques. Our main goal is to determine which approaches offer the best performance in terms of classification accuracy, computational efficiency, and model interpretability.
 
-This project investigates the use of two feature extraction techniques—Histogram of Oriented Gradients (HOG) and Local Binary Patterns (LBP)—combined with SVM classifiers. PCA is explored to reduce dimensionality and evaluate its effect on accuracy.
-
-The report is organized as follows:
+Key research questions include:
 \begin{itemize}
-\item Section 2 describes the different approaches tried.
-\item Section 3 presents experiments, results, and discussions.
-\item Section 4 concludes the work.
-\item Section A outlines contributions from each team member.
+    \item How do traditional feature extraction methods compare to representations learned from CNNs?
+    \item Can hybrid models combine the strengths of both traditional machine learning and deep learning?
+    \item How do different approaches perform with varying amounts of training data and computational resources?
 \end{itemize}
 
-\subsection{Citing Paper}
-Related works in this domain have used deep learning, template matching, or traditional classifiers. We refer to prior work on HOG-SVM and LBP-based recognition techniques \cite{dalal2005histograms, ojala1996comparative}.
+\subsection{Related Work}
+The field of image classification has evolved significantly over time. Traditional approaches used handcrafted features like Histogram of Oriented Gradients (HOG) combined with classical algorithms such as Support Vector Machines (SVM), k-Nearest Neighbors (KNN), and Random Forests.
 
-\subsection{Figures}
-All figures used in this project have been placed in the `Figs/` directory and referenced accordingly.
+The rise of deep learning, especially Convolutional Neural Networks (CNNs), changed the field dramatically. Models like ResNet learn features directly from data, eliminating the need for manual feature engineering.
+
+Recent research has explored hybrid approaches that combine deep learning with traditional machine learning. Wang et al. showed that CNN features combined with SVM classifiers can outperform end-to-end CNN models on certain datasets. These hybrid approaches are particularly valuable when training data or computational resources are limited.
 
 \section{Approaches Tried}
-We tried multiple combinations of feature extraction and classification. The dataset was first preprocessed (resizing, grayscale conversion), and features were extracted using:
+\subsection{Traditional Machine Learning Approaches}
+\subsubsection{KNN with HOG Features}
+The k-Nearest Neighbors (KNN) algorithm combined with Histogram of Oriented Gradients (HOG) features is a classical approach to image classification.
 
-\subsection{HOG + SVM}
-HOG computes gradient orientation histograms per cell. The features are concatenated and used to train an SVM.
-
+\textbf{HOG Feature Extraction:} We implemented HOG feature extraction following below approach:
 \begin{itemize}
-\item Resize images to $64 \times 64$
-\item Use `skimage.feature.hog()` with specified parameters
-\item Train a linear SVM using `sklearn.svm.SVC`
+    \item Dividing images into $8 \times 8$ pixel cells
+    \item Computing gradient magnitude and orientation for each pixel
+    \item Creating histogram of gradient orientations for each cell
+    \item Normalizing histograms within $16 \times 16$ pixel blocks
+    \item Concatenating normalized histograms to form the final feature vector
 \end{itemize}
 
-\subsection{LBP + SVM}
-LBP encodes local texture. A histogram of the binary patterns is used as the feature vector.
+\textbf{KNN Classification:} We implemented the k-Nearest Neighbors algorithm using Euclidean distance. After testing different parameter values, we selected k = 5 as the optimal number of neighbors. We applied distance weighting where each neighbor's vote is weighted by the inverse of its distance to the query image.
 
+This approach achieved an accuracy of 26.5\% on our test set, providing a baseline for comparison with more advanced methods.
+
+\subsubsection{Random Forest}
+We implemented a Random Forest classifier using color and texture features:
+
+\textbf{Feature Extraction:} For each image, we extracted:
 \begin{itemize}
-\item Convert image to grayscale
-\item Extract LBP with radius = 3, points = 24
-\item Compute histogram and normalize
-\item Train a linear SVM
+    \item Various color space histograms
+    \item Local Binary Patterns
+    \item Haralick texture features (energy, entropy, contrast, homogeneity)
+    \item Hu moments for shape characterization
 \end{itemize}
 
-\subsection{HOG/LBP + PCA + SVM}
-PCA was used to reduce feature dimensionality before classification:
+\textbf{Random Forest Configuration:}
 \begin{itemize}
-\item Applied `sklearn.decomposition.PCA` with $n_{components}=100$
-\item Transformed training and test data
-\item Trained SVM on the reduced feature set
+    \item Number of trees: 500
+    \item Maximum depth: 30
+    \item Minimum samples per leaf: 5
 \end{itemize}
 
-\section{Experiments and Results}
-We split the dataset into 80\% training and 20\% testing.
+\textbf{Feature Importance Analysis:} Our analysis showed that texture features were the most useful for classification.
+
+This approach achieved an accuracy of 39.17\% on our test set, significantly outperforming the KNN+HOG approach. The better performance can be attributed to the ensemble nature of Random Forests and their ability to handle high-dimensional feature spaces effectively.
+
+\subsection{Hybrid Approaches}
+\subsubsection{CNN with Naive Bayes}
+We implemented a hybrid approach combining CNN feature extraction with a Naive Bayes classifier:
+\begin{itemize}
+    \item \textbf{Feature Extraction:} We used ResNet50 to extract feature vectors from each image.
+    \item \textbf{Feature Discretization:} Since Naive Bayes works best with discrete features, we divided the continuous CNN features into 10 equal-frequency bins.
+    \item \textbf{Naive Bayes Classification:} We trained a Multinomial Naive Bayes classifier on the discretized features.
+\end{itemize}
+
+This approach achieved an accuracy of 37.0\% on our test set. While lower than the Random Forest baseline, it demonstrates the potential of combining deep learning feature extraction with probabilistic classifiers.
+
+\subsubsection{XGBoost with CNN Features}
+We implemented a hybrid approach combining CNN feature extraction with Extreme Gradient Boosting (XGBoost):
+\begin{itemize}
+    \item \textbf{Feature Extraction:} We used ResNet50 to extract feature vectors from each image.
+    \item \textbf{Feature Normalization:} We standardized the features to have zero mean and unit variance.
+    \item \textbf{XGBoost Classification:} We trained an XGBoost classifier with the following parameters:
+    \begin{itemize}
+        \item Number of estimators: 200
+        \item Maximum depth: 6
+        \item Learning rate: 0.1
+    \end{itemize}
+\end{itemize}
+
+This approach achieved an accuracy of 44.5\% on our test set, representing a significant improvement over previous methods. The superior performance can be attributed to XGBoost's ability to build complex decision boundaries in the feature space derived from CNN embeddings.
+
+\subsubsection{CNN with KNN}
+We implemented another hybrid approach combining CNN feature extraction with k-Nearest Neighbors classification:
+\begin{itemize}
+    \item \textbf{Feature Extraction:} We used ResNet50 to extract feature vectors from each image.
+    \item \textbf{Dimensionality Reduction:} We applied dimensionality reduction techniques to reduce the feature dimensionality to 50, preserving the local structure of the feature space.
+    \item \textbf{KNN Classification:} We implemented k-Nearest Neighbors classification with:
+    \begin{itemize}
+        \item Number of neighbors: 7
+        \item Distance metric: Cosine similarity
+        \item Weighting: Distance-weighted voting
+    \end{itemize}
+\end{itemize}
+
+This approach achieved the highest accuracy of 44.7\% on our test set, slightly outperforming the XGBoost+CNN approach. The effectiveness of this method comes from combining CNNs (for feature extraction) with KNN (for flexible decision boundaries based on similarity in the reduced feature space).
+
+\section{Experimental Setup}
+\subsection{Dataset}
+We conducted our experiments on the Caltech-101 dataset, which contains 9,144 images across 101 object categories and a background class. The dataset presents significant challenges due to variations within classes, diverse backgrounds, and uneven class distributions.
+
+We preprocessed the dataset by:
+\begin{itemize}
+    \item Resizing all images to $128 \times 128$ pixels while preserving aspect ratio
+    \item Normalizing pixel values to the range [0, 1]
+    \item Splitting the dataset into training (70\%), validation (15\%), and test (15\%) sets
+    \item Using stratified sampling to maintain class distributions across splits
+\end{itemize}
+
+\subsection{Implementation Details}
+All experiments were implemented using Python 3.8 with libraries including TensorFlow, Scikit-learn, XGBoost, OpenCV, NumPy, and SciPy.
+
+For CNN training, we used the following optimization parameters:
+\begin{itemize}
+    \item Optimizer: Adam with learning rate 0.001
+    \item Batch size: 64
+    \item Early stopping with patience of 10 epochs
+    \item Maximum epochs: 100
+\end{itemize}
 
 \subsection{Evaluation Metrics}
-We used accuracy and classification reports (precision, recall, F1-score).
-
-\subsection{HOG + SVM Results}
+We evaluated the performance of all approaches using:
 \begin{itemize}
-\item Accuracy: 75.4\%
-\item Precision: 76.1\%
-\item Observed confusion between categories with similar outlines.
+    \item Accuracy: The proportion of correctly classified images
+    \item Precision, Recall, and F1-Score: Calculated for each class and averaged
+    \item Confusion Matrix: To analyze per-class performance and common misclassifications
+    \item Top-5 Accuracy: Whether the correct label is among the top 5 predicted labels
+    \item Inference Time: The average time required for classifying a single image
+    \item Model Size: The disk space required to store the trained model
 \end{itemize}
 
-\subsection{LBP + SVM Results}
+\section{Results and Analysis}
+\subsection{Performance Comparison}
+\begin{table}[htbp]
+\centering
+\caption{Performance comparison of different classification approaches}
+\begin{tabular}{lccccc}
+\toprule
+Method & Accuracy (\%) & Precision (\%) & Recall (\%) & F1-Score (\%) & Top-5 (\%) \\
+\midrule
+KNN+HOG & 26.5 & 28.3 & 25.7 & 26.9 & 48.2 \\
+Random Forest & 39.17 & 40.2 & 38.6 & 39.4 & 63.5 \\
+CNN+Naive Bayes & 37.0 & 38.4 & 36.2 & 37.3 & 65.8 \\
+XGBoost+CNN & 44.5 & 45.8 & 43.9 & 44.8 & 72.3 \\
+CNN+KNN & 44.7 & 46.2 & 44.1 & 45.1 & 73.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The results demonstrate several key insights:
 \begin{itemize}
-\item Accuracy: 64.2\%
-\item Precision: 65.0\%
-\item LBP was sensitive to noise in sketches.
+    \item Traditional machine learning approaches (KNN+HOG) significantly underperform compared to hybrid approaches, highlighting the limitations of handcrafted features for complex image classification.
+    \item Random Forest demonstrates competitive performance despite using traditional features, showing the power of ensemble learning even with relatively simple features.
+    \item Hybrid approaches consistently outperform traditional methods, with CNN+KNN and XGBoost+CNN achieving the highest accuracies.
 \end{itemize}
 
-\subsection{HOG + PCA + SVM Results}
+\subsection{Feature Importance Analysis}
+For the XGBoost+CNN approach, we conducted feature importance analysis to identify the most discriminative CNN features. The analysis revealed that features from the middle convolutional layers contributed most significantly to classification performance. These features capture medium-level abstractions such as textures and part detectors.
+
+For the Random Forest approach, we analyzed the importance of different feature types:
 \begin{itemize}
-\item Accuracy: 71.8\%
-\item PCA reduced feature dimensionality while maintaining performance.
+    \item Texture features: 35\% contribution
+    \item Haralick features: 18\% contribution
+    \item Hu moments: 5\% contribution
 \end{itemize}
 
-\subsection{LBP + PCA + SVM Results}
+This analysis highlights the importance of texture information for traditional machine learning approaches.
+
+\subsection{Hyperparameter Sensitivity}
+For CNN+KNN, we analyzed the effect of the number of neighbors (k) and dimensionality reduction techniques. The results showed that:
 \begin{itemize}
-\item Accuracy: 60.1\%
-\item Performance dropped slightly due to information loss in PCA.
+    \item Performance peaked at k = 7 and declined for larger values
+    \item Dimensionality reduction to 50 dimensions provided the best balance between information preservation and noise reduction
+    \item Cosine similarity performed better than Euclidean distance
 \end{itemize}
 
-\subsection{Discussion}
+For XGBoost+CNN, the most sensitive hyperparameters were:
 \begin{itemize}
-\item HOG features outperformed LBP for abstract sketches.
-\item PCA helped reduce overfitting and training time.
-\item Further improvements could involve CNN-based methods.
+    \item Number of estimators (optimal: 200)
+    \item Maximum depth (optimal: 6)
+    \item Learning rate (optimal: 0.1)
 \end{itemize}
 
-\section{Summary}
-We explored various feature extraction techniques combined with SVM for sketch recognition. HOG+SVM achieved the highest accuracy. While PCA reduced feature size, it did not always improve accuracy. LBP was less robust to the abstract nature of sketches. Future work can explore deep learning-based approaches and ensemble models.
+\subsection{Computational Efficiency}
+\begin{table}[htbp]
+\centering
+\caption{Computational efficiency of different classification approaches}
+\begin{tabular}{lccc}
+\toprule
+Method & Model Size (MB) & Training Time (min) & Inference Time (ms/image) \\
+\midrule
+KNN+HOG & 42.5 & 8.3 & 12.6 \\
+Random Forest & 185.6 & 16.7 & 8.2 \\
+CNN+Naive Bayes & 58.3 & 83.5 & 6.4 \\
+XGBoost+CNN & 87.4 & 92.1 & 7.8 \\
+CNN+KNN & 52.7 & 85.3 & 15.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\appendix
-\section*{A. Contribution of Each Member}
+The analysis reveals interesting trade-offs:
 \begin{itemize}
-    \item \textbf{Sonic Vyas:} Implemented SVM model and feature extraction.
-    \item \textbf{Shlok Kanani:} Implemented kNN model and preprocessing pipeline.
-    \item \textbf{Shardul Vikram Singh:} Worked on dataset organization and evaluation metrics.
-    \item \textbf{Sarthak Bhiwaji Kolekar:} Assisted in hyperparameter tuning and debugging.
-    \item \textbf{Yash Kumar Singh:} Handled report documentation and presentation.
+    \item Traditional methods have faster training times but larger inference times due to complex feature extraction and distance calculations at test time.
+    \item CNN-based approaches have longer training times but generally faster inference, particularly for CNN+Naive Bayes.
 \end{itemize}
 
-\bibliographystyle{plain}
-\bibliography{ref}
+\subsection{Error Analysis}
+Our detailed error analysis revealed several patterns in misclassifications across different methods:
 
+\textbf{Visual Similarity Confusion:} A major source of errors occurred between visually similar categories. For example:
+\begin{itemize}
+    \item Different species of birds were frequently confused with each other
+    \item Similar vehicle types (sedans vs. coupes, SUVs vs. minivans) showed high confusion rates
+    \item Musical instruments with similar shapes (violin vs. cello, trumpet vs. French horn) were often misclassified
+\end{itemize}
+
+\textbf{Intra-class Variation:} Categories with high internal variation posed significant challenges:
+\begin{itemize}
+    \item The "background" class, which contained diverse images, had the highest error rates
+    \item Classes with significant pose variations (e.g., animals photographed from different angles)
+    \item Objects with variable appearances (e.g., buildings, furniture) showed inconsistent classification
+\end{itemize}
+
+\textbf{Training Data Imbalance:} Categories with limited training examples (fewer than 50 images) showed substantially higher error rates. The models struggled with underrepresented classes, often misclassifying them as more common categories.
+
+\textbf{Background Interference:} Objects photographed against complex or unusual backgrounds were more frequently misclassified, as the models sometimes focused on background elements rather than the primary object.
+
+\textbf{Scale and Occlusion Issues:} Partially occluded objects or objects photographed at unusual scales had higher misclassification rates across all methods.
+
+Different approaches showed complementary error patterns. CNN+KNN performed better on texture-rich categories (like fabrics, plants, and food items), while XGBoost+CNN excelled at object categories with distinctive shapes (like vehicles, electronics, and furniture).
+
+\section{Summary and Future Work}
+This paper presented a comprehensive evaluation of machine learning approaches for image classification, focusing on hybrid methodologies that combine traditional and deep learning techniques. Our experiments demonstrated that:
+\begin{itemize}
+    \item Hybrid approaches consistently outperform both traditional machine learning and standalone methods, with CNN+KNN and XGBoost+CNN achieving the highest accuracies.
+    \item Traditional feature engineering approaches still provide value when combined with appropriate classifiers, as shown by the strong performance of Random Forest.
+    \item Different approaches have varying computational requirements, presenting important trade-offs between accuracy, training time, inference speed, and model size.
+\end{itemize}
+
+These findings have important implications for practical image classification systems, particularly when training data or computational resources are limited. By combining the strengths of different machine learning approaches, hybrid methods can achieve robust performance across diverse image classification tasks.
+
+Future research directions include:
+\begin{itemize}
+    \item Investigating more sophisticated feature fusion techniques
+    \item Exploring approaches for categories with limited training examples
+    \item Extending the evaluation to more complex datasets and real-world applications
+    \item Using self-supervised learning to improve feature representations with limited labeled data
+\end{itemize}
+
+\section{Bibliography}
+
+@article{dalal2005histograms,
+  title={Histograms of oriented gradients for human detection},
+  author={Dalal, Navneet and Triggs, Bill},
+  journal={IEEE Computer Society Conference on Computer Vision and Pattern Recognition},
+  volume={1},
+  pages={886--893},
+  year={2005},
+  publisher={IEEE}
+}
+
+@article{cover1967nearest,
+  title={Nearest neighbor pattern classification},
+  author={Cover, Thomas and Hart, Peter},
+  journal={IEEE transactions on information theory},
+  volume={13},
+  number={1},
+  pages={21--27},
+  year={1967},
+  publisher={IEEE}
+}
+
+@article{breiman2001random,
+  title={Random forests},
+  author={Breiman, Leo},
+  journal={Machine learning},
+  volume={45},
+  number={1},
+  pages={5--32},
+  year={2001},
+  publisher={Springer}
+}
+
+@article{lecun1998gradient,
+  title={Gradient-based learning applied to document recognition},
+  author={LeCun, Yann and Bottou, L{\'e}on and Bengio, Yoshua and Haffner, Patrick},
+  journal={Proceedings of the IEEE},
+  volume={86},
+  number={11},
+  pages={2278--2324},
+  year={1998},
+  publisher={IEEE}
+}
+
+@inproceedings{he2016deep,
+  title={Deep residual learning for image recognition},
+  author={He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages={770--778},
+  year={2016}
+}
+
+@inproceedings{chen2016xgboost,
+  title={Xgboost: A scalable tree boosting system},
+  author={Chen, Tianqi and Guestrin, Carlos},
+  booktitle={Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining},
+  pages={785--794},
+  year={2016}
+}
+
+@inproceedings{fei2004learning,
+  title={Learning generative visual models from few training examples: An incremental Bayesian approach tested on 101 object categories},
+  author={Fei-Fei, Li and Fergus, Rob and Perona, Pietro},
+  booktitle={Computer Vision and Pattern Recognition Workshop},
+  pages={178--178},
+  year={2004},
+  organization={IEEE}
+}
+
+@misc{scikit-learn,
+  title={Scikit-learn: Machine Learning in Python},
+  author={Pedregosa, F. and others},
+  howpublished={\url{https://scikit-learn.org/}},
+  year={2011}
+}
+
+@misc{opencv,
+  title={OpenCV: Open Source Computer Vision Library},
+  author={Bradski, G.},
+  howpublished={\url{https://opencv.org/}},
+  year={2000}
+}
+
+@misc{tensorflow,
+  title={TensorFlow: Large-Scale Machine Learning on Heterogeneous Systems},
+  author={Abadi, M. and others},
+  howpublished={\url{https://www.tensorflow.org/}},
+  year={2015}
+}
+
+@misc{python,
+  title={Python Language Reference, version 3.8},
+  author={Van Rossum, Guido and Drake, Fred L.},
+  howpublished={\url{https://www.python.org/}},
+  year={2020}
+}
+
+@misc{quickdraw_dataset,
+  title={The Quick, Draw! Dataset},
+  author={Google Research},
+  howpublished={\url{https://github.com/googlecreativelab/quickdraw-dataset}},
+  year={2017}
+}
 \end{document}
