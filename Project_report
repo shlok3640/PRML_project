@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Hand-drawn Sketch Recognition: Feature Extraction and SVM-Based Classification}
+\author{
+Sonic Vyas\textsuperscript{1}, 
+Yash Kumar Singh\textsuperscript{1}, 
+Shardul Vikram Singh\textsuperscript{1},\\
+Sarthak Bhiwaji Kolekar\textsuperscript{1}, 
+Shlok Kanani\textsuperscript{1}\\
+\textsuperscript{1}Indian Institute of Technology Jodhpur\\
+\{vyas.1, yash.singh, shardul.singh, sarthak.kolekar, kanani.1\}@iitj.ac.in
+}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This project focuses on recognizing hand-drawn sketches using feature extraction techniques such as Histogram of Oriented Gradients (HOG) and Local Binary Patterns (LBP), followed by classification using Support Vector Machines (SVM). The dataset used includes various categories of hand-drawn objects. Experiments are conducted with and without Principal Component Analysis (PCA) for dimensionality reduction. The project aims to evaluate model performance based on classification accuracy and precision metrics.
+\\
+\textbf{Keywords:} sketch recognition, HOG, LBP, SVM, PCA
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+Sketch recognition has gained attention due to its potential in human-computer interaction, design tools, and educational applications. Recognizing sketches poses challenges due to their abstract nature and variations in drawing styles.
+
+This project investigates the use of two feature extraction techniques—Histogram of Oriented Gradients (HOG) and Local Binary Patterns (LBP)—combined with SVM classifiers. PCA is explored to reduce dimensionality and evaluate its effect on accuracy.
+
+The report is organized as follows:
+\begin{itemize}
+\item Section 2 describes the different approaches tried.
+\item Section 3 presents experiments, results, and discussions.
+\item Section 4 concludes the work.
+\item Section A outlines contributions from each team member.
+\end{itemize}
+
+\subsection{Citing Paper}
+Related works in this domain have used deep learning, template matching, or traditional classifiers. We refer to prior work on HOG-SVM and LBP-based recognition techniques \cite{dalal2005histograms, ojala1996comparative}.
+
+\subsection{Figures}
+All figures used in this project have been placed in the `Figs/` directory and referenced accordingly.
+
+\section{Approaches Tried}
+We tried multiple combinations of feature extraction and classification. The dataset was first preprocessed (resizing, grayscale conversion), and features were extracted using:
+
+\subsection{HOG + SVM}
+HOG computes gradient orientation histograms per cell. The features are concatenated and used to train an SVM.
+
+\begin{itemize}
+\item Resize images to $64 \times 64$
+\item Use `skimage.feature.hog()` with specified parameters
+\item Train a linear SVM using `sklearn.svm.SVC`
+\end{itemize}
+
+\subsection{LBP + SVM}
+LBP encodes local texture. A histogram of the binary patterns is used as the feature vector.
+
+\begin{itemize}
+\item Convert image to grayscale
+\item Extract LBP with radius = 3, points = 24
+\item Compute histogram and normalize
+\item Train a linear SVM
+\end{itemize}
+
+\subsection{HOG/LBP + PCA + SVM}
+PCA was used to reduce feature dimensionality before classification:
+\begin{itemize}
+\item Applied `sklearn.decomposition.PCA` with $n_{components}=100$
+\item Transformed training and test data
+\item Trained SVM on the reduced feature set
+\end{itemize}
+
+\section{Experiments and Results}
+We split the dataset into 80\% training and 20\% testing.
+
+\subsection{Evaluation Metrics}
+We used accuracy and classification reports (precision, recall, F1-score).
+
+\subsection{HOG + SVM Results}
+\begin{itemize}
+\item Accuracy: 75.4\%
+\item Precision: 76.1\%
+\item Observed confusion between categories with similar outlines.
+\end{itemize}
+
+\subsection{LBP + SVM Results}
+\begin{itemize}
+\item Accuracy: 64.2\%
+\item Precision: 65.0\%
+\item LBP was sensitive to noise in sketches.
+\end{itemize}
+
+\subsection{HOG + PCA + SVM Results}
+\begin{itemize}
+\item Accuracy: 71.8\%
+\item PCA reduced feature dimensionality while maintaining performance.
+\end{itemize}
+
+\subsection{LBP + PCA + SVM Results}
+\begin{itemize}
+\item Accuracy: 60.1\%
+\item Performance dropped slightly due to information loss in PCA.
+\end{itemize}
+
+\subsection{Discussion}
+\begin{itemize}
+\item HOG features outperformed LBP for abstract sketches.
+\item PCA helped reduce overfitting and training time.
+\item Further improvements could involve CNN-based methods.
+\end{itemize}
+
+\section{Summary}
+We explored various feature extraction techniques combined with SVM for sketch recognition. HOG+SVM achieved the highest accuracy. While PCA reduced feature size, it did not always improve accuracy. LBP was less robust to the abstract nature of sketches. Future work can explore deep learning-based approaches and ensemble models.
+
+\appendix
+\section*{A. Contribution of Each Member}
+\begin{itemize}
+\item Sonic Vyas: HOG Implementation and testing
+\item Yash Kumar Singh: LBP Extraction and PCA integration
+\item Shardul Vikram Singh: Dataset handling and preprocessing
+\item Sarthak Bhiwaji Kolekar: SVM classifier, Evaluation, Report writing
+\item Shlok Kanani: Code integration, debugging, LaTeX formatting
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\end{document}
