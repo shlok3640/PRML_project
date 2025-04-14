@@ -74,11 +74,11 @@ The dataset consists of hand-drawn sketches organized by categories. Images are 
 
 ## Contributors
 
-- Sonic Vyas (vyas.1@iitj.ac.in)
-- Yash Kumar Singh (yash.singh@iitj.ac.in)
-- Shardul Vikram Singh (shardul.singh@iitj.ac.in)
-- Sarthak Bhiwaji Kolekar (sarthak.kolekar@iitj.ac.in)
-- Shlok Kanani (kanani.1@iitj.ac.in)
+- Sonic Vyas (b23cs1100@iitj.ac.in)
+- Yash Kumar Singh (b23cs1102@iitj.ac.in)
+- Shardul Vikram Singh (b23cs1067@iitj.ac.in)
+- Sarthak Bhiwaji Kolekar (b23cs1065@iitj.ac.in)
+- Shlok Kanani (b23cs1068@iitj.ac.in)
 
 All contributors are from Indian Institute of Technology Jodhpur.
 
